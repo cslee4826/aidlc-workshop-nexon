@@ -14,7 +14,11 @@ export default function OrderHistoryPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    apiClient.get('/orders').then((res) => setOrders(res.data));
+    const fetchOrders = () => apiClient.get('/orders/my').then((res) => setOrders(res.data));
+    fetchOrders();
+    // 5초마다 자동 새로고침 (상태 변경 확인용)
+    const interval = setInterval(fetchOrders, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (

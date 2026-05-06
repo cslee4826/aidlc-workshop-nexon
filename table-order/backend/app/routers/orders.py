@@ -24,6 +24,28 @@ async def create_order(
     return await order_service.create_order(db, table.store_id, table.table_id, request)
 
 
+@router.get("/my", response_model=List[OrderResponse])
+async def get_my_orders(
+    db: AsyncSession = Depends(get_db),
+    table: TableSessionInfo = Depends(get_current_table),
+):
+    """고객용: 현재 테이블의 활성 세션 주문 조회"""
+    from sqlalchemy import select
+    from app.models.table import TableSession
+
+    # Find active session for this table
+    result = await db.execute(
+        select(TableSession).where(
+            TableSession.table_id == table.table_id, TableSession.is_active == True
+        )
+    )
+    session = result.scalar_one_or_none()
+    if not session:
+        return []
+
+    return await order_service.get_orders(db, table.store_id, table.table_id, session.id)
+
+
 @router.get("", response_model=List[OrderResponse])
 async def get_orders(
     table_id: Optional[str] = None,
