@@ -1,0 +1,5 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body, #root { min-height: 100vh; overflow: auto; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; color: #333; }
+button { cursor: pointer; border: none; border-radius: 6px; font-size: 14px; padding: 8px 16px; }
+input, select { min-height: 40px; font-size: 14px; padding: 8px 12px; border: 1px solid #d9d9d9; border-radius: 6px; width: 100%; }
